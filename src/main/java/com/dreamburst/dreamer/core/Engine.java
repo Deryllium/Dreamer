@@ -1,10 +1,7 @@
 package com.dreamburst.dreamer.core;
 
-import com.dreamburst.dreamer.core.events.ComponentEvent;
 import com.dreamburst.dreamer.delegate.Event;
 import com.dreamburst.dreamer.delegate.EventExecutor;
-import com.dreamburst.dreamer.util.ImmutableList;
-import com.dreamburst.dreamer.util.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +11,13 @@ public class Engine {
     private boolean enabled;
     private boolean updating;
 
-    private ObservableList<Entity> entities;
+    private ObservableList entities;
     private List<EntitySystem> systems;
 
     private final EventExecutor<Event> updateComponentObserver;
 
     public Engine() {
-        entities = new ObservableList<>();
+        entities = new ObservableList();
         systems = new ArrayList<>();
 
         updateComponentObserver = event -> entities.updateView();
@@ -128,12 +125,12 @@ public class Engine {
         return allRemoved;
     }
 
-    public ObservableList<Entity> getEntities() {
+    public ObservableList getEntities() {
         return entities;
     }
 
     public ImmutableList<Entity> getEntitiesFor(Class<? extends Component>... components) {
-        return entities.filter(entity -> entity.has(components));
+        return entities.filter(components);
     }
 
     public List<EntitySystem> getSystems() {

@@ -3,8 +3,6 @@ package com.dreamburst.dreamer.test;
 import com.dreamburst.dreamer.core.*;
 import com.dreamburst.dreamer.systems.IteratingSystem;
 
-import static org.junit.Assert.assertEquals;
-
 public class GameVelocityTest {
 
     private Engine engine;
@@ -15,16 +13,17 @@ public class GameVelocityTest {
     }
 
     public void testPositionChanged() {
-        Entity entity = new Entity();
-        PositionComponent positionComponent = new PositionComponent(5, 5);
+        Entity one = new Entity();
+        Entity two = new Entity();
 
-        engine.add(entity);
-        entity.add(positionComponent).add(new VelocityComponent(1, 1));
+        engine.add(one);
+        engine.add(two);
 
-        engine.update(1);
+        one.add(new PositionComponent(1, 1)).add(new VelocityComponent(2, 2));
 
-        assertEquals(6, positionComponent.x);
-        assertEquals(6, positionComponent.y);
+        while (engine.isEnabled()) {
+            engine.update(1);
+        }
     }
 
     private class XYComponent implements Component {
@@ -58,6 +57,8 @@ public class GameVelocityTest {
 
             positionComponent.x += velocityComponent.x;
             positionComponent.y += velocityComponent.y;
+
+            System.out.println(positionComponent.x + ", " + positionComponent.y);
         }
     }
 }

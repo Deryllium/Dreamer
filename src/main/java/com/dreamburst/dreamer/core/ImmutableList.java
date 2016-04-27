@@ -1,4 +1,4 @@
-package com.dreamburst.dreamer.util;
+package com.dreamburst.dreamer.core;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,10 +13,6 @@ public class ImmutableList<E> implements Iterable<E> {
 
     List<E> getList() {
         return list;
-    }
-
-    void setList(List<E> list) {
-        this.list = list;
     }
 
     public int size() {

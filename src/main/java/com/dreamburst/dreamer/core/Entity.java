@@ -72,13 +72,13 @@ public class Entity extends EngineElement<Entity> {
      * @return           this {@link Entity} for chaining
      */
     public Entity add(Component component) {
-        onComponentAdding().setComponent(component);
-        onComponentAdding().execute();
+        componentAdding.setComponent(component);
+        componentAdding.execute();
 
-        if (!onComponentAdding().isCancelled()) {
+        if (!componentAdding.isCancelled()) {
             addComponent(component);
 
-            onComponentAdding().setComponent(null);
+            componentAdding.setComponent(null);
         }
 
         return this;
@@ -96,13 +96,13 @@ public class Entity extends EngineElement<Entity> {
         int componentTypeIndex = componentType.getIndex();
         Component component = components.get(componentTypeIndex);
 
-        onComponentRemoving().setComponent(component);
-        onComponentRemoving().execute();
+        componentRemoving.setComponent(component);
+        componentRemoving.execute();
 
-        if (!onComponentRemoving().isCancelled()) {
+        if (!componentRemoving.isCancelled()) {
             removeComponent(type);
 
-            onComponentRemoving().setComponent(null);
+            componentRemoving.setComponent(null);
         }
 
         return component;
@@ -139,7 +139,6 @@ public class Entity extends EngineElement<Entity> {
     }
 
     private boolean addComponent(Component component) {
-
         Class<? extends Component> type = component.getClass();
         Component currentComponent = get(type);
 
