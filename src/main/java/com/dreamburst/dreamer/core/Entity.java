@@ -96,13 +96,13 @@ public class Entity extends EngineElement<Entity> {
         int componentTypeIndex = componentType.getIndex();
         Component component = components.get(componentTypeIndex);
 
-        onComponentAdding().setComponent(component);
-        onComponentAdding().execute();
+        onComponentRemoving().setComponent(component);
+        onComponentRemoving().execute();
 
-        if (!onComponentAdding().isCancelled()) {
+        if (!onComponentRemoving().isCancelled()) {
             removeComponent(type);
 
-            onComponentAdding().setComponent(null);
+            onComponentRemoving().setComponent(null);
         }
 
         return component;

@@ -1,9 +1,6 @@
 package com.dreamburst.dreamer.test;
 
 import com.dreamburst.dreamer.core.*;
-import com.dreamburst.dreamer.core.events.EngineEvent;
-import com.dreamburst.dreamer.delegate.Event;
-import com.dreamburst.dreamer.delegate.EventExecutor;
 import com.dreamburst.dreamer.systems.IteratingSystem;
 
 import static org.junit.Assert.assertEquals;

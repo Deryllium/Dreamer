@@ -11,7 +11,11 @@ public class ImmutableList<E> implements Iterable<E> {
         this.list = list;
     }
 
-    public void setList(List<E> list) {
+    List<E> getList() {
+        return list;
+    }
+
+    void setList(List<E> list) {
         this.list = list;
     }
 

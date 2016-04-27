@@ -1,8 +1,10 @@
 package com.dreamburst.dreamer.core;
 
 import com.dreamburst.dreamer.core.events.ComponentEvent;
+import com.dreamburst.dreamer.delegate.Event;
 import com.dreamburst.dreamer.delegate.EventExecutor;
 import com.dreamburst.dreamer.util.ImmutableList;
+import com.dreamburst.dreamer.util.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +14,16 @@ public class Engine {
     private boolean enabled;
     private boolean updating;
 
-    private List<Entity> entities;
+    private ObservableList<Entity> entities;
     private List<EntitySystem> systems;
 
-    private ComponentMapper componentMapper;
+    private final EventExecutor<Event> updateComponentObserver;
 
     public Engine() {
-        entities = new ArrayList<>();
+        entities = new ObservableList<>();
         systems = new ArrayList<>();
 
-        componentMapper = new ComponentMapper();
+        updateComponentObserver = event -> entities.updateView();
 
         enabled = true;
     }
@@ -126,12 +128,12 @@ public class Engine {
         return allRemoved;
     }
 
-    public List<Entity> getEntities() {
+    public ObservableList<Entity> getEntities() {
         return entities;
     }
 
     public ImmutableList<Entity> getEntitiesFor(Class<? extends Component>... components) {
-        return componentMapper.getEntitiesFor(entities, components);
+        return entities.filter(entity -> entity.has(components));
     }
 
     public List<EntitySystem> getSystems() {
@@ -162,16 +164,9 @@ public class Engine {
         }
 
         if (!entity.onAddedToEngine().isCancelled()) {
-            entity.onComponentAdded().add(new EventExecutor<ComponentEvent>() {
-                @Override
-                public void execute(ComponentEvent event) {
-                    updateComponentMapper();
-                }
-            });
-
+            entity.onComponentAdded().add(updateComponentObserver);
+            entity.onComponentRemoved().add(updateComponentObserver);
             entities.add(entity);
-            updateComponentMapper();
-
             return true;
         }
 
@@ -198,6 +193,8 @@ public class Engine {
         }
 
         if (!entity.onRemovedFromEngine().isCancelled()) {
+            entity.onComponentAdded().remove(updateComponentObserver);
+            entity.onComponentRemoved().remove(updateComponentObserver);
             entities.remove(entity);
             return true;
         }
@@ -217,9 +214,5 @@ public class Engine {
         }
 
         return false;
-    }
-
-    private void updateComponentMapper() {
-        componentMapper.update(entities);
     }
 }
