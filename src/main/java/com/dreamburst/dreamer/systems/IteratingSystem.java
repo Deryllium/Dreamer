@@ -49,11 +49,11 @@ public abstract class IteratingSystem extends EntitySystem {
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
         for (Entity entity : entities) {
-            update(entity, delta);
+            update(entity);
         }
     }
 
-    public void update(Entity entity, float delta) {}
+    public void update(Entity entity) {}
 }

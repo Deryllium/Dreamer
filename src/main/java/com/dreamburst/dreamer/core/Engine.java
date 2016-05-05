@@ -137,7 +137,7 @@ public class Engine {
         return systems;
     }
 
-    public void update(float delta) {
+    public void update() {
         if (!enabled) {
             return;
         }
@@ -149,7 +149,7 @@ public class Engine {
         updating = true;
 
         try {
-            systems.stream().filter(EntitySystem::isEnabled).forEach(system -> system.update(delta));
+            systems.stream().filter(EntitySystem::isEnabled).forEach(system -> system.update());
         } finally {
             updating = false;
         }

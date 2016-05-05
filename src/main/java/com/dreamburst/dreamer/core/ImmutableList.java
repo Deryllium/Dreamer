@@ -42,4 +42,12 @@ public class ImmutableList<E> implements Iterable<E> {
     public Iterator<E> iterator() {
         return list.iterator();
     }
+
+    public boolean equals(Object o) {
+        if (o instanceof ImmutableList) {
+            return list.equals(((ImmutableList) o).getList());
+        }
+
+        return super.equals(o);
+    }
 }

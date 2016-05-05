@@ -3,6 +3,10 @@ package com.dreamburst.dreamer.test;
 import com.dreamburst.dreamer.core.*;
 import com.dreamburst.dreamer.systems.IteratingSystem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class GameVelocityTest {
 
     private Engine engine;
@@ -13,17 +17,27 @@ public class GameVelocityTest {
     }
 
     public void testPositionChanged() {
-        Entity one = new Entity();
-        Entity two = new Entity();
+        for (int i = 0; i < 100; i ++) {
+            Entity e = new Entity();
+            e.add(new PositionComponent(1, 1)).add(new VelocityComponent(1, 1));
+            engine.add(e);
+        }
 
-        engine.add(one);
-        engine.add(two);
+        List<Integer> ints = Arrays.asList(1, 11, 5, 2, 444, 125, 88, 164);
 
-        one.add(new PositionComponent(1, 1)).add(new VelocityComponent(2, 2));
+
+        int i = 0;
+        long ms = System.currentTimeMillis();
 
         while (engine.isEnabled()) {
-            engine.update(1);
+            engine.update();
+            i++;
+            if (System.currentTimeMillis() - ms >= 1000) {
+                engine.disable();
+            }
         }
+
+        System.out.println(i);
     }
 
     private class XYComponent implements Component {
@@ -51,14 +65,12 @@ public class GameVelocityTest {
     @Components({PositionComponent.class, VelocityComponent.class})
     private class VelocitySystem extends IteratingSystem {
         @Override
-        public void update(Entity entity, float delta) {
+        public void update(Entity entity) {
             PositionComponent positionComponent = entity.get(PositionComponent.class);
             VelocityComponent velocityComponent = entity.get(VelocityComponent.class);
 
             positionComponent.x += velocityComponent.x;
             positionComponent.y += velocityComponent.y;
-
-            System.out.println(positionComponent.x + ", " + positionComponent.y);
         }
     }
 }

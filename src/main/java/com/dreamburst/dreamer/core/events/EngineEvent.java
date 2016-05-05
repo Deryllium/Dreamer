@@ -25,14 +25,6 @@ public class EngineEvent<T extends EngineElement> extends Event implements Cance
         this.engine = engine;
     }
 
-    public T getElement() {
-        return element;
-    }
-
-    public void setElement(T element) {
-        this.element = element;
-    }
-
     @Override
     public boolean isCancelled() {
         return cancelled;

@@ -35,7 +35,7 @@ public abstract class EntitySystem extends EngineElement<EntitySystem> {
         enabled = false;
     }
 
-    public void update(float delta) {
+    public void update() {
     }
 
 }

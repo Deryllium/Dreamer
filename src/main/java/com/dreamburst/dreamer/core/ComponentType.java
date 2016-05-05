@@ -42,7 +42,7 @@ public final class ComponentType {
         return getFor(type).getIndex();
     }
 
-    public static Class<? extends Component> getComponentFor(int index) {
+    public static Class<? extends Component> getComponentTypeFor(int index) {
         return indeces.containsKey(index) ? indeces.get(index) : null;
     }
 

@@ -5,6 +5,8 @@ import com.dreamburst.dreamer.core.events.PreComponentEvent;
 import com.dreamburst.dreamer.util.ImmutablePack;
 import com.dreamburst.dreamer.util.Pack;
 
+import java.util.Collection;
+
 public class Entity extends EngineElement<Entity> {
 
     private Pack<Component> components;
@@ -51,6 +53,18 @@ public class Entity extends EngineElement<Entity> {
 
     public boolean has(Class<? extends Component> type) {
         return get(type) != null;
+    }
+
+    public boolean has(Collection<Class<? extends Component>> collection) {
+        boolean hasAll = true;
+
+        for (Class<? extends Component> type : collection) {
+            if (!has(type)) {
+                hasAll = false;
+            }
+        }
+
+        return hasAll;
     }
 
     public boolean has(Class<? extends Component>... types) {
